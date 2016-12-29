@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic Layout - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="js/demo.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script>
+        window.onload = function () {
+            var url = "http://139.129.211.43:8050/api/UsedCars";
+            $.get("http://139.129.211.43:8050/api/UsedCars",function(data,status){
+                if(status == "success"){
+                    $("#dg").datagrid("loadData",data.data.data);
+                }
+
+            });
+        };
+        function editUser() {
+            var row = $("#dg").datagrid("getSelected");
+            if (row){
+                $('#dlg').dialog('open').dialog('setTitle','Edit');
+                $('#fm').form('load',row);
+            }
+        }
+    </script>
+</head>
+<body>
+<h2>Basic Layout</h2>
+<div style="margin:20px 0;"></div>
+<div class="easyui-layout" style="width:100%;height:500px;">
+    <div data-options="region:'north'" style="height:50px"></div>
+    <div data-options="region:'south',split:true" style="height:50px;"></div>
+    <div data-options="region:'east',split:true" title="East" style="width:100px;"></div>
+    <div data-options="region:'west',split:true" title="导航" style="width:200px;">
+        <ul class="easyui-tree">
+            <li>
+                <span>Folder</span>
+                <ul>
+                    <li>
+                        <span>Sub Folder 1</span>
+                        <ul>
+                            <li><span>File 11</span></li>
+                            <li><span>File 12</span></li>
+                            <li><span>File 13</span></li>
+                        </ul>
+                    </li>
+                    <li><span>File 2</span></li>
+                    <li><span>File 3</span></li>
+                </ul>
+            </li>
+            <li><span>File21</span></li>
+        </ul>
+    </div>
+    <div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
+        <table class="easyui-datagrid" id="dg" toolbar="#toolbar"
+               data-options="border:false,singleSelect:true,fit:true,fitColumns:true">
+            <thead>
+            <tr>
+                <th data-options="field:'no'" width="80">Item ID</th>
+                <th data-options="field:'name'" width="100">Product NAME</th>
+                <th data-options="field:'image',align:'right'" width="160">ImagePath</th>
+                <th data-options="field:'newCarPrice',align:'right'" width="80">NewCarPrice</th>
+                <th data-options="field:'salePrice'" width="80">CostPrice</th>
+                <th data-options="field:'mileage',align:'center'" width="60">Mileage</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div id="toolbar">
+    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">New</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reloadUser()">Reload</a>
+</div>
+<div id="dlg" class="easyui-dialog" style="width:400px;height:280px;padding:10px 20px"
+     closed="true" buttons="#dlg-buttons">
+    <div class="ftitle">Information</div>
+    <form id="fm" method="post">
+        <div class="fitem">
+            <label> Name:</label>
+            <input name="name" class="easyui-validatebox" required="true">
+        </div>
+        <div class="fitem">
+            <label>price :</label>
+            <input name="newCarPrice" class="easyui-validatebox" required="true">
+        </div>
+        <div class="fitem">
+            <label>salePrice:</label>
+            <input name="salePrice">
+        </div>
+        <div class="fitem">
+            <label>mileage:</label>
+            <input name="mileage" class="easyui-validatebox" >
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
